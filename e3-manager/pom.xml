@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>cn.e3mall</groupId>
+    <artifactId>e3-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>cn.e3mall</groupId>
+  <artifactId>e3-manager</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>e3-manager-pojo</module>
+  	<module>e3-manager-dao</module>
+  	<module>e3-manager-service</module>
+  	<module>e3-manager-web</module>
+  </modules>
+  
+  <!-- 
+  	后台系统聚合父工程：
+  	1. 聚合管理子工程（统一启动，打包，部署）
+  		配置Tomcat插件：启动项目
+  	2. 抽取子工程公共依赖坐标
+   -->
+  <dependencies>
+  	<!-- 因为e3-manager的4个子模块都要依赖工具类工程e3-common，故我们直接让e3-manager依赖e3-common，
+  		这样它的四个子模块也就能间接依赖e3-common -->
+  	<dependency>
+  		<groupId>cn.e3mall</groupId>
+  		<artifactId>e3-common</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
+  <build>
+  	<plugins>
+		<!-- 配置Tomcat插件 -->
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+			<configuration>
+				<!-- 配置项目发布路径，/(表示根路径)相当于把项目发布到Tomcat/webapps/ROOT/下，这样访问的时候就不需要写项目名了，可以直接访问 -->
+				<path>/</path>
+				<port>8080</port>
+			</configuration>
+		</plugin>
+	</plugins>
+  </build>
+  
+</project>
